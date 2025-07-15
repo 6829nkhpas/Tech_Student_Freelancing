@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 0%; /* Black background */
+    --foreground: 184 100% 42%; /* Cyan500 foreground */
+    
+    --card: 0 0% 3%;
+    --card-foreground: 184 100% 42%;
+    
+    --popover: 0 0% 3%;
+    --popover-foreground: 184 100% 42%;
+    
+    --primary: 184 100% 42%; /* Cyan500 */
+    --primary-foreground: 0 0% 0%;
+    
+    --secondary: 0 0% 9%;
+    --secondary-foreground: 184 100% 42%;
+    
+    --muted: 0 0% 9%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 184 100% 42%; /* Cyan500 */
+    --accent-foreground: 0 0% 0%;
+    
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 184 100% 42%; /* Cyan500 */
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #06b6d4;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #0891b2;
+}
+
+/* Custom styles */
+.cyber-gradient {
+  background: linear-gradient(to right, #000000, #06b6d4);
+}
+
+.cyber-border {
+  border: 1px solid #06b6d4;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.cyber-glow {
+  text-shadow: 0 0 5px rgba(6, 182, 212, 0.7);
+}
+
+.cyber-card {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #06b6d4;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+  transition: all 0.3s ease;
+}
+
+.cyber-card:hover {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+  transform: translateY(-2px);
+}
