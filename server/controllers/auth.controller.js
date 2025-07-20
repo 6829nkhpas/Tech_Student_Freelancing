@@ -40,7 +40,14 @@ exports.register = async (req, res, next) => {
 
     await user.save();
 
-    // TODO: Send verification email
+    // Send verification email
+    try {
+      const emailService = require('../utils/emailService');
+      await emailService.sendVerificationEmail(user.email, user.name, verificationToken);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Don't fail registration if email fails
+    }
 
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -267,7 +274,14 @@ exports.forgotPassword = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    // TODO: Send reset email
+    // Send reset email
+    try {
+      const emailService = require('../utils/emailService');
+      await emailService.sendPasswordResetEmail(user.email, user.name, resetToken);
+    } catch (emailError) {
+      console.error('Failed to send reset email:', emailError);
+      // Don't fail the request if email fails
+    }
 
     res.status(200).json({
       success: true,
@@ -386,7 +400,14 @@ exports.resendVerification = async (req, res, next) => {
 
     await user.save({ validateBeforeSave: false });
 
-    // TODO: Send verification email
+    // Send verification email
+    try {
+      const emailService = require('../utils/emailService');
+      await emailService.sendVerificationEmail(user.email, user.name, verificationToken);
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Don't fail the request if email fails
+    }
 
     res.status(200).json({
       success: true,
