@@ -970,6 +970,284 @@ exports.getUserInvitations = async (req, res, next) => {
 };
 
 /**
+ * @desc    Delete team document
+ * @route   DELETE /api/teams/:id/documents/:documentId
+ * @access  Private (Team creator, admin, or document uploader)
+ */
+exports.deleteTeamDocument = async (req, res, next) => {
+  try {
+    const { id, documentId } = req.params;
+
+    const team = await Team.findById(id);
+    if (!team) {
+      return res.status(404).json({ message: 'Team not found' });
+    }
+
+    // Find the document
+    const documentIndex = team.documents.findIndex(
+      (doc) => doc._id.toString() === documentId
+    );
+
+    if (documentIndex === -1) {
+      return res.status(404).json({ message: 'Document not found' });
+    }
+
+    const document = team.documents[documentIndex];
+
+    // Check if user is authorized to delete the document
+    const isAdmin = team.members.some(
+      (member) => member.user.toString() === req.user.id && member.role === 'admin'
+    );
+    const isUploader = document.uploadedBy.toString() === req.user.id;
+    const isCreator = team.creator.toString() === req.user.id;
+
+    if (!isAdmin && !isUploader && !isCreator) {
+      return res.status(403).json({
+        message: 'Not authorized to delete this document',
+      });
+    }
+
+    // Remove document from team
+    team.documents.splice(documentIndex, 1);
+    await team.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Document deleted successfully',
+    });
+  } catch (error) {
+    console.error('Delete document error:', error);
+    next(error);
+  }
+};
+
+/**
+ * @desc    Get team projects
+ * @route   GET /api/teams/:id/projects
+ * @access  Private (Team members only)
+ */
+exports.getTeamProjects = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status, page = 1, limit = 10 } = req.query;
+
+    const team = await Team.findById(id);
+    if (!team) {
+      return res.status(404).json({ message: 'Team not found' });
+    }
+
+    // Check if user is a team member
+    const isMember = team.members.some(
+      (member) => member.user.toString() === req.user.id
+    );
+
+    if (!isMember) {
+      return res.status(403).json({
+        message: 'Not authorized to view team projects',
+      });
+    }
+
+    // Build query for projects
+    const query = { assignedTeam: id };
+    if (status) {
+      query.status = status;
+    }
+
+    // Pagination
+    const skip = (Number(page) - 1) * Number(limit);
+
+    // Get projects
+    const projects = await Project.find(query)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(Number(limit))
+      .populate('client', 'name avatar')
+      .populate('assignedTeam', 'name avatar');
+
+    // Get total count
+    const total = await Project.countDocuments(query);
+
+    res.status(200).json({
+      success: true,
+      count: projects.length,
+      total,
+      pages: Math.ceil(total / Number(limit)),
+      currentPage: Number(page),
+      projects,
+    });
+  } catch (error) {
+    console.error('Get team projects error:', error);
+    next(error);
+  }
+};
+
+/**
+ * @desc    Add team document
+ * @route   POST /api/teams/:id/documents
+ * @access  Private (Team members only)
+ */
+exports.addTeamDocument = async (req, res, next) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { id } = req.params;
+    const { title, fileUrl, fileType, description } = req.body;
+
+    const team = await Team.findById(id);
+    if (!team) {
+      return res.status(404).json({ message: 'Team not found' });
+    }
+
+    // Check if user is a team member
+    const isMember = team.members.some(
+      (member) => member.user.toString() === req.user.id
+    );
+
+    if (!isMember) {
+      return res.status(403).json({
+        message: 'Not authorized to add documents to this team',
+      });
+    }
+
+    // Add document to team
+    const newDocument = {
+      title,
+      fileUrl,
+      fileType,
+      description: description || '',
+      uploadedBy: req.user.id,
+      uploadedAt: Date.now(),
+    };
+
+    team.documents.push(newDocument);
+    await team.save();
+
+    // Create notifications for team members
+    for (const member of team.members) {
+      // Skip notification for the uploader
+      if (member.user.toString() === req.user.id) continue;
+
+      const notification = new Notification({
+        recipient: member.user,
+        type: 'team',
+        title: 'New Document Added',
+        content: `A new document "${title}" has been added to team ${team.name}`,
+        team: team._id,
+        createdBy: req.user.id,
+        link: `/teams/${team._id}`,
+      });
+
+      await notification.save();
+
+      // Add notification to member's notifications
+      await User.findByIdAndUpdate(member.user, {
+        $push: { notifications: notification._id },
+      });
+    }
+
+    res.status(201).json({
+      success: true,
+      document: team.documents[team.documents.length - 1],
+    });
+  } catch (error) {
+    console.error('Add document error:', error);
+    next(error);
+  }
+};
+
+/**
+ * @desc    Update member role
+ * @route   PUT /api/teams/:id/members/:userId
+ * @access  Private (Team admin only)
+ */
+exports.updateMemberRole = async (req, res, next) => {
+  try {
+    // Check for validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { id, userId } = req.params;
+    const { role, permissions } = req.body;
+
+    const team = await Team.findById(id);
+    if (!team) {
+      return res.status(404).json({ message: 'Team not found' });
+    }
+
+    // Check if user is a team admin
+    const isAdmin = team.members.some(
+      (member) => member.user.toString() === req.user.id && member.role === 'admin'
+    );
+
+    if (!isAdmin) {
+      return res.status(403).json({
+        message: 'Not authorized to update member roles',
+      });
+    }
+
+    // Find the member to update
+    const memberIndex = team.members.findIndex(
+      (member) => member.user.toString() === userId
+    );
+
+    if (memberIndex === -1) {
+      return res.status(404).json({ message: 'Member not found in team' });
+    }
+
+    // Prevent admin from demoting themselves if they're the only admin
+    if (userId === req.user.id && role !== 'admin') {
+      const adminCount = team.members.filter(member => member.role === 'admin').length;
+      if (adminCount === 1) {
+        return res.status(400).json({
+          message: 'Cannot demote yourself as the only admin',
+        });
+      }
+    }
+
+    // Update member role and permissions
+    team.members[memberIndex].role = role;
+    team.members[memberIndex].permissions = permissions || [];
+
+    await team.save();
+
+    // Create notification for the updated member
+    if (userId !== req.user.id) {
+      const notification = new Notification({
+        recipient: userId,
+        type: 'team',
+        title: 'Role Updated',
+        content: `Your role in team ${team.name} has been updated to ${role}`,
+        team: team._id,
+        createdBy: req.user.id,
+        link: `/teams/${team._id}`,
+      });
+
+      await notification.save();
+
+      // Add notification to member's notifications
+      await User.findByIdAndUpdate(userId, {
+        $push: { notifications: notification._id },
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'Member role updated successfully',
+      member: team.members[memberIndex],
+    });
+  } catch (error) {
+    console.error('Update member role error:', error);
+    next(error);
+  }
+};
+
+/**
  * @desc    Assign team to project
  * @route   POST /api/teams/:id/projects/:projectId
  * @access  Private (Team admin and Project client only)
