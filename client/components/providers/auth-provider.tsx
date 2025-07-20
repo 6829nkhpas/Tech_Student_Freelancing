@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const fetchUser = async (authToken: string) => {
     try {
-      const response = await fetch("http://localhost:5000/api/users/me", {
+      const response = await fetch("http://localhost:5000/api/auth/me", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -153,12 +153,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resetPassword = async (token: string, password: string) => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/reset-password", {
-        method: "POST",
+      const response = await fetch(`http://localhost:5000/api/auth/reset-password/${token}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ token, password }),
+        body: JSON.stringify({ password }),
       });
 
       if (!response.ok) {
