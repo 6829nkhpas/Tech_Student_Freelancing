@@ -1,13 +1,17 @@
+
+# Next.js
+.next/
+out/
+
+# Node.js
 node_modules/
-dist/
+
+# Production
 build/
-.env
+
+# Environments
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
-.env.test
-.env.example
+.env.*
 
 # Logs
 logs/
