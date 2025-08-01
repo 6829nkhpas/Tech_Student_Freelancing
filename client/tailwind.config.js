@@ -50,10 +50,21 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom colors based on roadmap (black background, cyan500 foreground)
+        // Custom futuristic colors
         cyber: {
           black: "#000000",
-          cyan: "#06b6d4", // Tailwind's cyan-500
+          cyan: "#06b6d4",
+        },
+        neon: {
+          cyan: "#00ffff",
+          purple: "#8b5cf6",
+          pink: "#ec4899",
+          green: "#10b981",
+          blue: "#3b82f6",
+        },
+        glass: {
+          bg: "rgba(255, 255, 255, 0.1)",
+          border: "rgba(255, 255, 255, 0.2)",
         },
       },
       borderRadius: {
