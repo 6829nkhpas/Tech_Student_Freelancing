@@ -90,21 +90,30 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-primary">Cyber Hunter</h1>
-          <h2 className="mt-6 text-3xl font-bold tracking-tight">Create your account</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:text-primary/80">
-              Sign in
+    <div className="flex min-h-screen items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 z-0">
+        <div className="matrix-bg absolute inset-0 opacity-20"></div>
+        <div className="cyber-grid absolute inset-0 opacity-10"></div>
+      </div>
+
+      <div className="w-full max-w-lg space-y-8 relative z-10">
+        <div className="text-center floating-animation">
+          <div className="glass-morphism p-6 rounded-2xl mb-8 quantum-border">
+            <h1 className="text-4xl font-black tracking-tight hologram-text mb-2">CYBER HUNTER</h1>
+            <div className="h-0.5 w-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent rounded"></div>
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight neon-glow mb-4">Initialize Profile</h2>
+          <p className="text-sm text-cyan-200">
+            Already synced to the matrix?{' '}
+            <Link href="/login" className="font-medium text-cyan-400 hover:text-cyan-300 hover:neon-glow transition-all duration-300">
+              Jack In
             </Link>
           </p>
         </div>
 
         <div className="mt-8">
-          <div className="rounded-lg border bg-card p-6 shadow-sm">
+          <div className="glass-morphism p-8 rounded-2xl neon-border data-stream">
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium">
