@@ -50,10 +50,21 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Custom colors based on roadmap (black background, cyan500 foreground)
+        // Custom futuristic colors
         cyber: {
           black: "#000000",
-          cyan: "#06b6d4", // Tailwind's cyan-500
+          cyan: "#06b6d4",
+        },
+        neon: {
+          cyan: "#00ffff",
+          purple: "#8b5cf6",
+          pink: "#ec4899",
+          green: "#10b981",
+          blue: "#3b82f6",
+        },
+        glass: {
+          bg: "rgba(255, 255, 255, 0.1)",
+          border: "rgba(255, 255, 255, 0.2)",
         },
       },
       borderRadius: {
@@ -74,6 +85,13 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 6s ease-in-out infinite",
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite alternate",
+        "border-rotate": "borderRotate 3s linear infinite",
+        "data-flow": "dataFlow 2s ease-in-out infinite",
+        "matrix-move": "matrixMove 20s linear infinite",
+        "hologram-shift": "hologramShift 3s ease-in-out infinite",
+        "quantum-pulse": "quantumPulse 2s ease-in-out infinite",
       },
     },
   },
