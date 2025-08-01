@@ -115,7 +115,7 @@ export default function Home() {
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Join Cyber Hunter today and connect with real-world clients, build your portfolio, and develop your skills.
           </p>
-          <Button size="lg" className="cyber-border bg-black text-cyber-cyan hover:bg-black/80">
+          <Button size="lg" className="cyber-border bg-black text-cyber-cyan hover:bg-black/80" asChild>
             <Link href="/register">Sign Up Now</Link>
           </Button>
         </div>
