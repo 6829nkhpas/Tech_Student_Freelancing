@@ -220,14 +220,14 @@ export default function RegisterPage() {
                 </Button>
               </div>
 
-              <div className="text-xs text-center text-muted-foreground">
-                By creating an account, you agree to our{' '}
-                <Link href="/terms" className="text-primary hover:text-primary/80">
-                  Terms of Service
+              <div className="text-xs text-center text-cyan-400/70 pt-4 border-t border-cyan-500/30">
+                By entering the matrix, you agree to our{' '}
+                <Link href="/terms" className="text-cyan-400 hover:text-cyan-300 hover:neon-glow transition-all duration-300">
+                  Neural Protocols
                 </Link>{' '}
                 and{' '}
-                <Link href="/privacy" className="text-primary hover:text-primary/80">
-                  Privacy Policy
+                <Link href="/privacy" className="text-cyan-400 hover:text-cyan-300 hover:neon-glow transition-all duration-300">
+                  Data Protection Algorithms
                 </Link>
               </div>
             </form>
