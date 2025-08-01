@@ -114,101 +114,109 @@ export default function RegisterPage() {
 
         <div className="mt-8">
           <div className="glass-morphism p-8 rounded-2xl neon-border data-stream">
-            <form className="space-y-6" onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium">
-                  Full Name
-                </label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="mt-1"
-                  placeholder="John Doe"
-                />
-              </div>
+            <form className="space-y-8" onSubmit={handleSubmit}>
+              <div className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-semibold text-cyan-300 mb-2">
+                    Full Name
+                  </label>
+                  <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="bg-black/50 border-cyan-500/50 text-cyan-100 placeholder:text-cyan-400/70 focus:border-cyan-400 focus:ring-cyan-400 rounded-xl h-12"
+                    placeholder="Enter your designation"
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium">
-                  Email address
-                </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="mt-1"
-                  placeholder="you@example.com"
-                />
-              </div>
+                <div>
+                  <label htmlFor="email" className="block text-sm font-semibold text-cyan-300 mb-2">
+                    Neural Address
+                  </label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="bg-black/50 border-cyan-500/50 text-cyan-100 placeholder:text-cyan-400/70 focus:border-cyan-400 focus:ring-cyan-400 rounded-xl h-12"
+                    placeholder="your.matrix@cyber.net"
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium">
-                  Password
-                </label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="mt-1"
-                  minLength={8}
-                />
-              </div>
+                <div>
+                  <label htmlFor="password" className="block text-sm font-semibold text-cyan-300 mb-2">
+                    Access Code
+                  </label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="bg-black/50 border-cyan-500/50 text-cyan-100 placeholder:text-cyan-400/70 focus:border-cyan-400 focus:ring-cyan-400 rounded-xl h-12"
+                    minLength={8}
+                    placeholder="••••••••"
+                  />
+                </div>
 
-              <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium">
-                  Confirm Password
-                </label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className="mt-1"
-                  minLength={8}
-                />
-              </div>
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-semibold text-cyan-300 mb-2">
+                    Confirm Access Code
+                  </label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="bg-black/50 border-cyan-500/50 text-cyan-100 placeholder:text-cyan-400/70 focus:border-cyan-400 focus:ring-cyan-400 rounded-xl h-12"
+                    minLength={8}
+                    placeholder="••••••••"
+                  />
+                </div>
 
-              <div>
-                <div className="mb-2 block text-sm font-medium">I am a:</div>
-                <RadioGroup 
-                  defaultValue="freelancer" 
-                  value={formData.role}
-                  onValueChange={handleRoleChange}
-                  className="flex flex-col space-y-2"
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="freelancer" id="freelancer" />
-                    <Label htmlFor="freelancer">Freelancer (Student)</Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem value="client" id="client" />
-                    <Label htmlFor="client">Client (Business/Organization)</Label>
-                  </div>
-                </RadioGroup>
+                <div>
+                  <div className="mb-4 block text-sm font-semibold text-cyan-300">Select Your Path:</div>
+                  <RadioGroup
+                    defaultValue="freelancer"
+                    value={formData.role}
+                    onValueChange={handleRoleChange}
+                    className="space-y-4"
+                  >
+                    <div className="flex items-center space-x-3 p-4 rounded-xl glass-morphism border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300">
+                      <RadioGroupItem value="freelancer" id="freelancer" className="border-cyan-400 text-cyan-400" />
+                      <Label htmlFor="freelancer" className="text-cyan-100 font-medium cursor-pointer">
+                        Freelancer (Digital Warrior)
+                      </Label>
+                    </div>
+                    <div className="flex items-center space-x-3 p-4 rounded-xl glass-morphism border border-cyan-500/30 hover:border-cyan-400/50 transition-all duration-300">
+                      <RadioGroupItem value="client" id="client" className="border-cyan-400 text-cyan-400" />
+                      <Label htmlFor="client" className="text-cyan-100 font-medium cursor-pointer">
+                        Client (Mission Commander)
+                      </Label>
+                    </div>
+                  </RadioGroup>
+                </div>
               </div>
 
               <div>
                 <Button
                   type="submit"
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/80"
+                  className="w-full futuristic-button bg-transparent text-cyan-100 hover:text-black font-bold text-lg h-14 rounded-xl"
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Creating account...' : 'Create account'}
+                  {isLoading ? 'INITIALIZING...' : 'ENTER THE MATRIX'}
                 </Button>
               </div>
 
