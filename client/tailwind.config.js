@@ -85,6 +85,13 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float": "float 6s ease-in-out infinite",
+        "pulse-glow": "pulseGlow 2s ease-in-out infinite alternate",
+        "border-rotate": "borderRotate 3s linear infinite",
+        "data-flow": "dataFlow 2s ease-in-out infinite",
+        "matrix-move": "matrixMove 20s linear infinite",
+        "hologram-shift": "hologramShift 3s ease-in-out infinite",
+        "quantum-pulse": "quantumPulse 2s ease-in-out infinite",
       },
     },
   },
