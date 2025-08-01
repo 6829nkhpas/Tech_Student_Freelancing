@@ -16,10 +16,10 @@ export default function Home() {
               Connecting students with real-world clients for freelance opportunities, portfolio building, and skill development.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="cyber-border bg-cyber-cyan text-black hover:bg-cyber-cyan/80">
+              <Button size="lg" className="cyber-border bg-cyber-cyan text-black hover:bg-cyber-cyan/80" asChild>
                 <Link href="/register">Get Started</Link>
               </Button>
-              <Button size="lg" variant="outline" className="cyber-border">
+              <Button size="lg" variant="outline" className="cyber-border" asChild>
                 <Link href="/about">Learn More</Link>
               </Button>
             </div>
